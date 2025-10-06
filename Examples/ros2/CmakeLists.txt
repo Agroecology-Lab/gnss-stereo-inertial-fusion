@@ -1,0 +1,97 @@
+cmake_minimum_required(VERSION 3.8)
+project(gnss_stereo_inertial_fusion_ros2)
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic -std=c++17)
+endif()
+
+# find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(OpenCV 4.2 REQUIRED)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "/usr/share/cmake/geographiclib/")
+find_package(GeographicLib REQUIRED)
+find_package(Eigen3 3.1.0 REQUIRED)
+find_package(Pangolin REQUIRED)
+find_package(Boost REQUIRED COMPONENTS serialization system filesystem)
+
+# Include directories from the original project
+include_directories(
+  ${PROJECT_SOURCE_DIR}/../gnss-stereo-inertial-fusion
+  ${PROJECT_SOURCE_DIR}/../gnss-stereo-inertial-fusion/include
+  ${PROJECT_SOURCE_DIR}/../gnss-stereo-inertial-fusion/include/CameraModels
+  ${PROJECT_SOURCE_DIR}/../gnss-stereo-inertial-fusion/Thirdparty/Sophus
+  ${EIGEN3_INCLUDE_DIR}
+  ${Pangolin_INCLUDE_DIRS}
+)
+
+# Add subdirectories for g2o and DBoW2 with explicit binary directories
+add_subdirectory(../gnss-stereo-inertial-fusion/Thirdparty/g2o ${CMAKE_CURRENT_BINARY_DIR}/g2o_build)
+add_subdirectory(../gnss-stereo-inertial-fusion/Thirdparty/DBoW2 ${CMAKE_CURRENT_BINARY_DIR}/DBoW2_build)
+
+# Add the main library from the original project
+add_library(${PROJECT_NAME} SHARED
+  ../gnss-stereo-inertial-fusion/src/System.cc
+  ../gnss-stereo-inertial-fusion/src/Tracking.cc
+  ../gnss-stereo-inertial-fusion/src/LocalMapping.cc
+  ../gnss-stereo-inertial-fusion/src/LoopClosing.cc
+  ../gnss-stereo-inertial-fusion/src/ORBextractor.cc
+  ../gnss-stereo-inertial-fusion/src/ORBmatcher.cc
+  ../gnss-stereo-inertial-fusion/src/FrameDrawer.cc
+  ../gnss-stereo-inertial-fusion/src/Converter.cc
+  ../gnss-stereo-inertial-fusion/src/MapPoint.cc
+  ../gnss-stereo-inertial-fusion/src/KeyFrame.cc
+  ../gnss-stereo-inertial-fusion/src/Atlas.cc
+  ../gnss-stereo-inertial-fusion/src/Map.cc
+  ../gnss-stereo-inertial-fusion/src/MapDrawer.cc
+  ../gnss-stereo-inertial-fusion/src/Optimizer.cc
+  ../gnss-stereo-inertial-fusion/src/Frame.cc
+  ../gnss-stereo-inertial-fusion/src/KeyFrameDatabase.cc
+  ../gnss-stereo-inertial-fusion/src/Sim3Solver.cc
+  ../gnss-stereo-inertial-fusion/src/Viewer.cc
+  ../gnss-stereo-inertial-fusion/src/ImuTypes.cc
+  ../gnss-stereo-inertial-fusion/src/G2oTypes.cc
+  ../gnss-stereo-inertial-fusion/src/CameraModels/Pinhole.cpp
+  ../gnss-stereo-inertial-fusion/src/CameraModels/KannalaBrandt8.cpp
+  ../gnss-stereo-inertial-fusion/src/OptimizableTypes.cpp
+  ../gnss-stereo-inertial-fusion/src/MLPnPsolver.cpp
+  ../gnss-stereo-inertial-fusion/src/GeometricTools.cc
+  ../gnss-stereo-inertial-fusion/src/TwoViewReconstruction.cc
+  ../gnss-stereo-inertial-fusion/src/Config.cc
+  ../gnss-stereo-inertial-fusion/src/Settings.cc
+  ../gnss-stereo-inertial-fusion/src/GpsTypes.cc
+)
+
+# Link libraries
+ament_target_dependencies(${PROJECT_NAME} rclcpp std_msgs sensor_msgs geometry_msgs nav_msgs tf2_ros)
+target_link_libraries(${PROJECT_NAME}
+  ${GeographicLib_LIBRARIES}
+  ${OpenCV_LIBS}
+  ${EIGEN3_LIBS}
+  ${Pangolin_LIBRARIES}
+  g2o
+  DBoW2
+  ${Boost_LIBRARIES}
+)
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  set(ament_cmake_copyright_FOUND TRUE)
+  set(ament_cmake_cpplint_FOUND TRUE)
+  ament_lint_auto_find_test_dependencies()
+endif()
+
+install(TARGETS ${PROJECT_NAME} DESTINATION lib)
+install(DIRECTORY include/ DESTINATION include)
+
+install(FILES
+  launch/gnss_stereo_inertial_fusion.launch.py
+  DESTINATION share/${PROJECT_NAME}/launch
+)
+
+ament_package()
