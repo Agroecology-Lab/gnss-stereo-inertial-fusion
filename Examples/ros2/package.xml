@@ -1,0 +1,1 @@
+ gnss_stereo_inertial_fusion_ros2 0.0.0 ROS2 port of GNSS-Stereo-Inertial Fusion for robust state estimation. ubuntu MIT ament_cmake rclcpp std_msgs sensor_msgs geometry_msgs nav_msgs tf2_ros opencv geographic_msgs eigen Pangolin boost ament_lint_auto ament_lint_common ament_cmake 
