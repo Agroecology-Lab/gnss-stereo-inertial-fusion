@@ -1,8 +1,8 @@
 <package format="3">
   <name>gnss_stereo_inertial_fusion_ros2</name>
-  <version>0.0.0</version>
+  <version>0.0.1</version>
   <description>ROS2 port of GNSS-Stereo-Inertial Fusion for robust state estimation.</description>
-  <maintainer email="ubuntu@todo.todo">ubuntu</maintainer>
+  <maintainer email="sam@bristolwireless.net">Sam</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
