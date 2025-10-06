@@ -5,6 +5,7 @@
 #include "nav_msgs/msg/odometry.hpp"
 
 #include "System.h"
+#include <functional>
 
 class GnssStereoInertialFusionNode : public rclcpp::Node
 {
@@ -13,19 +14,22 @@ public:
   {
     RCLCPP_INFO(this->get_logger(), "GNSS-Stereo-Inertial Fusion ROS2 Node started.");
 
-    // TODO: Initialize ORB_SLAM3::System
-    // mpSystem = new ORB_SLAM3::System("path_to_vocabulary", "path_to_settings", ORB_SLAM3::System::IMU_STEREO, true, 0, "");
+    // TODO: Initialize ORB_SLAM3::System with actual paths and sensor type
+    // For now, using placeholder paths and IMU_STEREO as an example.
+    // These paths should ideally come from ROS2 parameters.
+    mpSystem = new ORB_SLAM3::System("vocabulary.fbow", "settings.yaml", ORB_SLAM3::System::IMU_STEREO, true, 0, "");
 
-    // TODO: Create subscribers for stereo images, IMU, and GPS data
-    // stereo_sub_ = this->create_subscription<sensor_msgs::msg::Image>(
-    //   "/camera/left/image_raw", 10, std::bind(&GnssStereoInertialFusionNode::stereoCallback, this, _1));
+  rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr stereo_sub_left_;
+  rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr stereo_sub_right_;
+  rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imu_sub_;
+  rclcpp::Subscription<sensor_msgs::msg::NavSatFix>::SharedPtr gps_sub_;
 
     // TODO: Create publishers for pose/odometry
     // pose_pub_ = this->create_publisher<geometry_msgs::msg::PoseStamped>("/gnss_slam/pose", 10);
   }
 
 private:
-  // ORB_SLAM3::System* mpSystem;
+  ORB_SLAM3::System* mpSystem;
 
   // TODO: Callbacks for subscribers
   // void stereoCallback(const sensor_msgs::msg::Image::SharedPtr msg)
