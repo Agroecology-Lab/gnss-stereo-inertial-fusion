@@ -3,6 +3,8 @@
 GNSS-SI (GNSS-Stereo-Inertial) fuses, in a tightly-coupled
 manner, GNSS measurements into the stereo-inertial [ORB-SLAM3](https://github.com/UZ-SLAMLab/ORB_SLAM3) pipeline. For more information about ORB-SLAM3, just check its original [README](OS3_README.md).
 
+Mono on [resource constrained](https://github.com/UZ-SLAMLab/ORB_SLAM3/issues/638)
+
 <!-- Two images side by side with spacing -->
 <div style="display: flex; justify-content: space-between;">
     <img src="support_files/media/robot_front.jpg" alt="Robot" width="300" height="400" style="margin-right: 10px;">
