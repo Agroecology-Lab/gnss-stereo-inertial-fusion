@@ -5,6 +5,34 @@ manner, GNSS measurements into the stereo-inertial [ORB-SLAM3](https://github.co
 
 Mono on [resource constrained](https://github.com/UZ-SLAMLab/ORB_SLAM3/issues/638)
 
+---libraries---
+sudo apt-get install libboost-all-dev libboost-dev libssl-dev libpython2.7-dev libeigen3-dev
+
+---Pangolin---
+cd ~
+git clone https://github.com/stevenlovegrove/Pangolin
+cd Pangolin
+./scripts/install_prerequisites.sh recommended
+cmake -B build -GNinja
+cmake --build build
+cmake --build build -t pypangolin_pip_install #no need
+
+---opencv---
+*https://qengineering.eu/install-opencv-4.5-on-raspberry-pi-4.html
+wget https://raw.githubusercontent.com/Qengineering/Install-OpenCV-Raspberry-Pi-32-bits/refs/heads/main/OpenCV-4-10-0.sh
+sudo chmod 755 ./OpenCV-4-10-0.sh
+./OpenCV-4-5-5.sh
+
+---ORB_SLAM3---
+git clone https://github.com/UZ-SLAMLab/ORB_SLAM3.git ORB_SLAM3
+cd ORB_SLAM3
+chmod +x build.sh
+sed -i 's/++11/++14/g' CMakeLists.txt
+./build.sh
+
+
+
+
 <!-- Two images side by side with spacing -->
 <div style="display: flex; justify-content: space-between;">
     <img src="support_files/media/robot_front.jpg" alt="Robot" width="300" height="400" style="margin-right: 10px;">
