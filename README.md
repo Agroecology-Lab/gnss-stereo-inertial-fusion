@@ -5,6 +5,7 @@ manner, GNSS measurements into the stereo-inertial [ORB-SLAM3](https://github.co
 
 Mono on [resource constrained](https://github.com/UZ-SLAMLab/ORB_SLAM3/issues/638)
 
+```
 ---libraries---
 sudo apt-get install libboost-all-dev libboost-dev libssl-dev libpython2.7-dev libeigen3-dev
 
@@ -29,9 +30,7 @@ cd ORB_SLAM3
 chmod +x build.sh
 sed -i 's/++11/++14/g' CMakeLists.txt
 ./build.sh
-
-
-
+```
 
 <!-- Two images side by side with spacing -->
 <div style="display: flex; justify-content: space-between;">
