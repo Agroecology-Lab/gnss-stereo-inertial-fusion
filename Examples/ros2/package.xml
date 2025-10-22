@@ -1,23 +1,20 @@
 <package format="3">
-  <name>gnss_stereo_inertial_fusion_ros2</name>
-  <version>0.0.1</version>
-  <description>ROS2 port of GNSS-Stereo-Inertial Fusion for robust state estimation.</description>
-  <maintainer email="sam@bristolwireless.net">Sam</maintainer>
-  <license>MIT</license>
+   <name>gnss_stereo_inertial_fusion_ros2</name>
+  <version>0.0.0</version>
+  <description>ROS2 wrapper for GNSS-Stereo-Inertial Fusion using ORB_SLAM3</description>
+  <maintainer email="sam@bristolwireless.net">Sam Rossiter</maintainer>
+  <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
-  <depend>std_msgs</depend>
   <depend>sensor_msgs</depend>
   <depend>geometry_msgs</depend>
   <depend>nav_msgs</depend>
   <depend>tf2_ros</depend>
-  <depend>opencv</depend>
+  <depend>cv_bridge</depend>
+  <depend>image_transport</depend>
   <depend>geographic_msgs</depend>
-  <depend>eigen</depend>
-  <depend>Pangolin</depend>
-  <depend>boost</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
